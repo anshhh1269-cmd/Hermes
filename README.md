@@ -16,14 +16,7 @@ The board relies on three main active parts chatting over a shared **I2C communi
 *   **The Sensor (LSM6DS3TR-C):** This is the high-precision 6-axis IMU tracking my physical movements. The accelerometer handles raw speed and direction shifts, while the gyroscope measures physical angles and tilt; I chosethis by looking at multiple datasheets for many types of sensors
 *   **The Screen (0.96" OLED Module):** An SSD1306-driven display sharing the same data tracks. It prints live variables, movement graphs, or setup menus so I can see what mode the device is in without guessing.
 
-### 2. The Shared Communication Highway (I2C Standard)
-Instead of running a million messy wires across the layout, the sensor and display share the exact same two tracks: **SDA (Serial Data)** and **SCL (Serial Clock)**. 
-*   **Addressing:** To stop data from bumping into each other, each chip has its own unique "phone number" (I2C address). Grounding the sensor's `SA0` pin locks its address to `0x6A`, keeping it perfectly separated from the display.
-*   **Pull-Up Resistors:** The I2C standard is "open-drain," meaning the chips can only pull the communication signal down to 0V, but they can't push it up to 3.3V. I added twin **4.7kΩ resistors** connecting the data lines to the 3.3V power line so the digital signals don't float in electrical limbo.
-*   **Power Filtering:** To keep the sensor from glitching or throwing random numbers when it moves suddenly, twin **0.1µF decoupling capacitors** sit right next to the power pins to filter out invisible electrical noise.
-
 ---
-
 ## Bill of Materials (BOM)
 
 Every part on this schematic uses standard surface-mount (SMD) footprints mapped directly to **LCSC Part Numbers**. This lets the automated pick-and-place robot arms at JLCPCB find the parts in their warehouse inventory and solder them onto the board automatically.
